@@ -16,7 +16,7 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
 3. **Adaptively selects the most appropriate markup language** for different document types
 
 <div align="center">
-  <img src="assets/figures/pipeline.pdf" width="80%">
+  <img src="assets/figures/pipeline.png" width="80%">
 </div>
 
 ## Key Contributions
@@ -28,6 +28,10 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
    - **DocMark-Instruct**: 624k fine-tuning annotations for grounded instruction following
 
 3. State-of-the-art performance across various document understanding benchmarks, significantly outperforming existing MLLMs.
+
+<div align="center">
+  <img src="assets/figures/datavis.png" width="80%">
+</div>
 
 ## Model Zoo
 
