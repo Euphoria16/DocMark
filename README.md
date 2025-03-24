@@ -12,7 +12,7 @@ Visual Document Understanding has become essential with the increase of text-ric
 We propose **DocMark**, an innovative pipeline that utilizes adaptive generation of markup languages, such as Markdown, JSON, HTML, and TiKZ, to build highly structured document representations and deliver contextually-grounded responses. Our approach:
 
 1. **Converts documents to structured markup languages** that preserve rich semantic and layout information
-2. **Generates contextually relevant markup code** as intermediate reasoning steps
+2. **Generates contextually relevant markup code** as **intermediate reasoning** steps
 3. **Adaptively selects the most appropriate markup language** for different document types
 
 <div align="center">
