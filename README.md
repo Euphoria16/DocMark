@@ -29,9 +29,6 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
 
 3. State-of-the-art performance across various document understanding benchmarks, significantly outperforming existing MLLMs.
 
-<div align="center">
-  <img src="assets/figures/datavis.png" width="80%">
-</div>
 
 ## Model Zoo
 
@@ -41,6 +38,10 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
 | DocMark-8B | 8B | 78.0 | 89.8 | 68.3 | 84.2 | 86.2 | 823 | 78.9 | 21.1 |
 
 ## Datasets
+
+<div align="center">
+  <img src="assets/figures/datavis.png" width="80%">
+</div>
 
 ### DocMark-Pile (3.8M samples)
 
