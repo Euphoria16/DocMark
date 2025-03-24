@@ -40,7 +40,7 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
 ## Datasets
 
 <div align="center">
-  <img src="assets/figures/datavis.png" width="80%">
+  <img src="assets/figures/datavis.png" width="90%">
 </div>
 
 ### DocMark-Pile (3.8M samples)
