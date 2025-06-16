@@ -4,6 +4,7 @@
 
 Official repository for the CVPR 2025 paper "Adaptive Markup Language Generation for Contextually-Grounded Visual Document Understanding".
 
+ [[📖 Paper](https://arxiv.org/abs/2505.05446)] [[🤗 Models & Datasets](https://huggingface.co/collections/HanXiao1999/docmark-683c89571e09453b60e4c830)]
 
 ## About DocMark
 
@@ -37,6 +38,8 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
 | DocMark-2B| 2B | 74.8 | 87.8 | 61.2 | 79.8 | 82.5 | 813 | 70.1 | 18.8 |
 | DocMark-8B | 8B | 78.0 | 89.8 | 68.3 | 84.2 | 86.2 | 823 | 78.9 | 21.1 |
 
+Pre-trained models are available on Hugging Face: [DocMark-Pretrain-2B](https://huggingface.co/HanXiao1999/DocMark-Pretrain-2B)
+
 ## Datasets
 
 <div align="center">
@@ -44,6 +47,7 @@ We propose **DocMark**, an innovative pipeline that utilizes adaptive generation
 </div>
 
 ### DocMark-Pile (3.8M samples)
+[Download on Hugging Face](https://huggingface.co/datasets/HanXiao1999/DocMark-Pile)
 
 A comprehensive pretraining dataset for document parsing with various markup languages:
 
@@ -56,15 +60,23 @@ A comprehensive pretraining dataset for document parsing with various markup lan
 
 
 ### DocMark-Instruct (624k samples)
+[Download on Hugging Face](https://huggingface.co/datasets/HanXiao1999/DocMark-Instruct)
 
 Fine-tuning dataset featuring chain-of-thought-like reasoning annotations for contextually-grounded instruction following.
 
 
 ## Usage
 
+### Installation
+```bash
+cd ms-swift
+pip install -e .
+```
+
 ### Training
 
 ```bash
+cd ms-swift
 # Pretraining on DocMark-Pile
 bash exps/docmark_pretrain_2b.sh
 
@@ -74,11 +86,78 @@ bash exps/docmark_finetune_2b.sh
 
 ### Inference
 
+DocMark supports various document understanding tasks including text extraction, OCR with grounding, and document-to-markup conversion. Below are example usage scenarios:
+
+#### Basic Setup
 ```python
-#to be updated
+import torch
+from swift.utils import seed_everything
+from modelscope import AutoModel, AutoTokenizer
+from utils import load_image
+
+# Initialize model
+model_path = 'HanXiao1999/DocMark-Pretrain-2B'
+model = AutoModel.from_pretrained(
+    model_path,
+    torch_dtype=torch.bfloat16,
+    low_cpu_mem_usage=True,
+    use_flash_attn=True,
+    trust_remote_code=True
+).eval().cuda()
+
+tokenizer = AutoTokenizer.from_pretrained(
+    model_path,
+    trust_remote_code=True,
+    use_fast=True,
+    legacy=False,
+    add_prefix_space=False
+)
+
+generation_config = dict(max_new_tokens=2048, do_sample=False)
+seed_everything(42)
 ```
 
-## Results
+#### Text Extraction from Images
+```python
+# Load image
+image_path = 'examples/text_img.jpg'
+pixel_values = load_image(image_path, max_num=12).to(torch.bfloat16).cuda()
+
+# Extract text content
+question = '<image>Could you extract the text from the image for me?'
+answer = model.chat(tokenizer, pixel_values, question, generation_config)
+print('Extracted Text:', answer)
+```
+
+#### OCR with Grounding
+```python
+question = '<image>OCR with grounding:'
+answer = model.chat(tokenizer, pixel_values, question, generation_config)
+print('OCR Results with Grounding:', answer)
+```
+
+#### Document to Markup Conversion
+```python
+# Process document image
+image_path = 'examples/example_doc.png'
+pixel_values = load_image(image_path, max_num=12).to(torch.bfloat16).cuda()
+
+# Convert to structured markup
+question = '<image>Convert this document to structured markup format'
+answer = model.chat(tokenizer, pixel_values, question, generation_config)
+print('Generated Markup:', answer)
+```
+
+### Additional Examples
+For more comprehensive examples including:
+- Mathematical Content to LaTeX
+- Webpage Content Analysis
+- Scientific Diagram Reconstruction
+- Structured Data Extraction
+
+Please see the [demo notebook](https://github.com/Euphoria16/DocMark/demo.ipynb) for complete usage examples.
+
+## Results on Downstream Document Understanding Tasks
 
 DocMark significantly outperforms existing state-of-the-art MLLMs on document understanding tasks, particularly excelling in handling complex document formats and reasoning tasks.
 
@@ -100,11 +179,13 @@ We would like to thank the following repos for their great work:
 If you find DocMark useful for your research and applications, please kindly cite using this BibTeX:
 
 ```bibtex
-@inproceedings{xiao2025docmark,
+@inproceedings{xiao2025adaptive,
   title={Adaptive Markup Language Generation for Contextually-Grounded Visual Document Understanding},
-  author={Xiao, Han and Xie, Yina and Tan, Guanxin and Chen, Yinghao and Hu, Rui and Wang, Ke and Zhou, Aojun and Li, Hao and Shao, Hao and Lu, Xudong and Gao, Peng and Wen, Yafei and Chen, Xiaoxin and Ren, Shuai and Li, Hongsheng},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  author={Xiao, Han and Xie, Yina and Tan, Guanxin and Chen, Yinghao and Hu, Rui and Wang, Ke and Zhou, Aojun and Li, Hao and Shao, Hao and Lu, Xudong and others},
+  booktitle={Proceedings of the Computer Vision and Pattern Recognition Conference},
+  pages={29558--29568},
   year={2025}
+}
 }
 ```
 
