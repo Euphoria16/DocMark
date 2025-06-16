@@ -155,7 +155,7 @@ For more comprehensive examples including:
 - Scientific Diagram Reconstruction
 - Structured Data Extraction
 
-Please see the [demo notebook](https://github.com/Euphoria16/DocMark/demo.ipynb) for complete usage examples.
+Please see the [demo notebook](https://github.com/Euphoria16/DocMark/blob/main/demo.ipynb) for complete usage examples.
 
 ## Results on Downstream Document Understanding Tasks
 
